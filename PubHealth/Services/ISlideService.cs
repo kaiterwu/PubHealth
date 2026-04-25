@@ -1,13 +1,14 @@
-﻿using PubHealth.Models;
+﻿using PubHealth.DTOs.SlideDTOs;
+using PubHealth.Models;
 
 namespace PubHealth.Services
 {
     public interface ISlideService
     {
-        Task<List<Slide>> GetAllSlidesAsync();
-        Task<Slide?>GetSlideByIdAsync(int id);
-         Task<Slide> CreateSlideAsync(Slide slide);
-         Task<Slide> UpdateSlideAsync(int id, Slide slide);
+        Task<List<GetSlideResponse>> GetAllSlidesAsync();
+        Task<GetSlideResponse?>GetSlideByIdAsync(int id);
+         Task<GetSlideResponse> CreateSlideAsync(Slide slide);
+         Task<GetSlideResponse> UpdateSlideAsync(int id, Slide slide);
          Task<bool> DeleteSlideAsync(int id);
     }
 }

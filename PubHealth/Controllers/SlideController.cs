@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PubHealth.DTOs.SlideDTOs;
 using PubHealth.Models;
 using PubHealth.Services;
 
@@ -11,11 +12,11 @@ namespace PubHealth.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<List<Slide>>> GetSlides()
+        public async Task<ActionResult<List<GetSlideResponse>>> GetSlides()
             => Ok(await service.GetAllSlidesAsync());
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Slide>> GetSlide(int id)
+        public async Task<ActionResult<GetSlideResponse>> GetSlide(int id)
         {
             var slide = await service.GetSlideByIdAsync(id);
             return slide is null ? NotFound("Slide with id not found") : Ok(slide);

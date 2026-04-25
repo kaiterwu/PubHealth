@@ -1,31 +1,13 @@
-﻿using PubHealth.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PubHealth.Data;
+using PubHealth.Models;
+using PubHealth.DTOs.SlideDTOs;
 
 namespace PubHealth.Services
 {
-    public class SlideService : ISlideService
+    public class SlideService(AppDbContext context) : ISlideService
     {
-        static List<Slide> slides = new List<Slide>
-        {
-            new Slide
-            {
-                Id = 1,
-                IsFork = false,
-                SlideText = "Welcome to the PubHealth presentation!",
-                QuestionText = "What is PubHealth?",
-                SlideImageUrl = "https://example.com/slide1.jpg",
-                Category = "Introduction"
-            },
-            new Models.Slide
-                {
-                    Id = 2,
-                    IsFork = true,
-                    SlideText = "PubHealth is a platform for public health education.",
-                    QuestionText = "How does PubHealth work?",
-                    SlideImageUrl = "https://example.com/slide2.jpg",
-                    Category = "Introduction"
-                }
-        };
-        public Task<Slide> CreateSlideAsync(Slide slide)
+        public Task<GetSlideResponse> CreateSlideAsync(Slide slide)
         {
             throw new NotImplementedException();
         }
@@ -35,13 +17,31 @@ namespace PubHealth.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<Slide>> GetAllSlidesAsync()
-            => await Task.FromResult((slides));
+        public async Task<List<GetSlideResponse>> GetAllSlidesAsync()
+            => await context.Slides.Select(s => new GetSlideResponse
+            {
+                Id = s.Id,
+                IsFork = s.IsFork,
+                SlideText = s.SlideText,
+                QuestionText = s.QuestionText,
+                SlideImageUrl = s.SlideImageUrl,
+                Category = s.Category
+            }).ToListAsync();
 
-        public async Task<Slide?> GetSlideByIdAsync(int id)
+        public async Task<GetSlideResponse?> GetSlideByIdAsync(int id)
         {
-            var currSlide = slides.FirstOrDefault(s => s.Id == id);
-            return await Task.FromResult(currSlide);
+            var currSlide = await context.Slides
+                .Where(s=> s.Id == id)
+                .Select( s => new GetSlideResponse
+                {
+                    Id = s.Id,
+                    IsFork = s.IsFork,
+                    SlideText = s.SlideText,
+                    QuestionText = s.QuestionText,
+                    SlideImageUrl = s.SlideImageUrl,
+                    Category = s.Category
+                }).FirstOrDefaultAsync();
+            return currSlide;
         }
 
         public Task<Slide> UpdateSlideAsync(int id, Slide slide)
