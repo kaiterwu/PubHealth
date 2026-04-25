@@ -44,7 +44,7 @@ namespace PubHealth.Services
             return currSlide;
         }
 
-        public Task<Slide> UpdateSlideAsync(int id, Slide slide)
+        public Task<GetSlideResponse> UpdateSlideAsync(int id, Slide slide)
         {
             throw new NotImplementedException();
         }
