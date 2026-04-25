@@ -1,34 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PubHealth.Models;
+using PubHealth.Services;
 
 namespace PubHealth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlideController : ControllerBase
+    public class SlideController(ISlideService service) : ControllerBase
     {
-        static List<Slide> slides = new List<Slide>
-        {
-            new Slide
-            {
-                Id = 1,
-                IsFork = false,
-                SlideText = "Welcome to the PubHealth presentation!",
-                QuestionText = "What is PubHealth?",
-                SlideImageUrl = "https://example.com/slide1.jpg"
-            },
-            new Models.Slide
-                {
-                    Id = 2,
-                    IsFork = true,
-                    SlideText = "PubHealth is a platform for public health education.",
-                    QuestionText = "How does PubHealth work?",
-                    SlideImageUrl = "https://example.com/slide2.jpg"
-                }
-        };
+
         [HttpGet]
-        public async Task<ActionResult<List<Slide>>>GetSlides()
-            => await Task.FromResult(Ok(slides));
+        public async Task<ActionResult<List<Slide>>> GetSlides()
+            => Ok(await service.GetAllSlidesAsync());
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Slide>> GetSlide(int id)
+        {
+            var slide = await service.GetSlideByIdAsync(id);
+            return slide is null ? NotFound("Slide with id not found") : Ok(slide);
+
+        }
     }
 }
