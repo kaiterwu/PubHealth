@@ -21,5 +21,12 @@ namespace PubHealth.Controllers
             return slide is null ? NotFound("Slide with id not found") : Ok(slide);
 
         }
+
+        [HttpGet("category/{category}/first")]
+        public async Task<IActionResult> GetFirstSlideByCategory(string category)
+        {
+            var slide = await service.GetFirstSlideByCategoryAsync(category);
+            return slide is null ? NotFound($"No slides found for category '{category}'") : Ok(slide);
+        }
     }
 }

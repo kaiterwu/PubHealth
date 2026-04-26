@@ -17,19 +17,12 @@ namespace PubHealth.Data
             modelBuilder.Entity<Slide>(entity =>
             {
                 entity.HasKey(s => s.Id);
-
                 entity.Property(s => s.Id)
                       .ValueGeneratedNever(); // IMPORTANT for fixed IDs
-
-                entity.Property(s => s.SlideText)
-                      .IsRequired();
-
-                entity.Property(s => s.QuestionText)
-                      .IsRequired();
-
-                entity.Property(s => s.SlideImageUrl)
-                      .IsRequired();
-
+                entity.Property(s => s.SlideText);
+                entity.Property(s => s.QuestionText);
+                entity.Property(s => s.SlideImageUrl);
+                entity.Property(s => s.ExplanationText);
                 entity.Property(s => s.Category)
                       .IsRequired();
             });
@@ -61,6 +54,15 @@ namespace PubHealth.Data
                     SlideImageUrl = "testurl.com",
                     Category = "Test",
                     IsFork = false
+                },
+                new Slide
+                {
+                    Id = 4,
+                    SlideText = "TestSlide4",
+                    QuestionText = "SO many slides why?",
+                    SlideImageUrl = "testurl.com",
+                    Category = "NewTest",
+                    IsFork = true
                 }
             );
 
@@ -80,11 +82,9 @@ namespace PubHealth.Data
                 entity.Property(t => t.ChildSlideId)
                       .IsRequired();
 
-                entity.Property(t => t.AnswerText1)
-                      .IsRequired();
+                entity.Property(t => t.AnswerText1);
 
-                entity.Property(t => t.AnswerText2)
-                      .IsRequired();
+                entity.Property(t => t.AnswerText2);
             });
 
             modelBuilder.Entity<Transition>().HasData(
@@ -99,10 +99,26 @@ namespace PubHealth.Data
                 new Transition
                 {
                     Id = 2,
-                    ParentSlideId = 2,
+                    ParentSlideId = 1,
                     ChildSlideId = 3,
                     AnswerText1 = "Answer3",
                     AnswerText2 = "Answer4"
+                },
+                new Transition
+                {
+                    Id = 3,
+                    ParentSlideId = 2,
+                    ChildSlideId = 4,
+                    AnswerText1 = "Answer5",
+                    AnswerText2 = "Answer6"
+                },
+                new Transition
+                {
+                    Id = 4,
+                    ParentSlideId = 3,
+                    ChildSlideId = 4,
+                    AnswerText1 = "Answer7",
+                    AnswerText2 = "Answer8"
                 }
             );
         }

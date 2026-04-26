@@ -23,6 +23,7 @@ namespace PubHealth.Services.TransitionServices
                 Id = t.Id,
                 ParentSlideId = t.ParentSlideId,
                 ChildSlideId = t.ChildSlideId,
+                IsCorrectChoice = t.IsCorrectChoice,
                 AnswerText1 = t.AnswerText1,
                 AnswerText2 = t.AnswerText2
             }).ToListAsync();
@@ -36,6 +37,7 @@ namespace PubHealth.Services.TransitionServices
                     Id = t.Id,
                     ParentSlideId = t.ParentSlideId,
                     ChildSlideId = t.ChildSlideId,
+                    IsCorrectChoice = t.IsCorrectChoice,
                     AnswerText1 = t.AnswerText1,
                     AnswerText2 = t.AnswerText2
                 }).FirstOrDefaultAsync();

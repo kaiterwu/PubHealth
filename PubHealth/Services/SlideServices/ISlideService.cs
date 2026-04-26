@@ -7,7 +7,8 @@ namespace PubHealth.Services.SlideServices
     {
         Task<List<GetSlideResponse>> GetAllSlidesAsync();
         Task<GetSlideResponse?>GetSlideByIdAsync(int id);
-         Task<GetSlideResponse> CreateSlideAsync(Slide slide);
+        Task<GetSlideResponse?> GetFirstSlideByCategoryAsync(string category);
+        Task<GetSlideResponse> CreateSlideAsync(Slide slide);
          Task<GetSlideResponse> UpdateSlideAsync(int id, Slide slide);
          Task<bool> DeleteSlideAsync(int id);
     }

@@ -24,6 +24,7 @@ namespace PubHealth.Services.SlideServices
                 IsFork = s.IsFork,
                 SlideText = s.SlideText,
                 QuestionText = s.QuestionText,
+                ExplanationText = s.ExplanationText,
                 SlideImageUrl = s.SlideImageUrl,
                 Category = s.Category
             }).ToListAsync();
@@ -38,10 +39,29 @@ namespace PubHealth.Services.SlideServices
                     IsFork = s.IsFork,
                     SlideText = s.SlideText,
                     QuestionText = s.QuestionText,
+                    ExplanationText = s.ExplanationText,
                     SlideImageUrl = s.SlideImageUrl,
                     Category = s.Category
                 }).FirstOrDefaultAsync();
             return currSlide;
+        }
+
+        public async Task<GetSlideResponse?> GetFirstSlideByCategoryAsync(string category)
+        {
+            return await context.Slides
+                .Where(s => s.Category.ToLower() == category.ToLower())
+                .OrderBy(s => s.Id) // ensures "first"
+                .Select(s => new GetSlideResponse
+                {
+                    Id = s.Id,
+                    IsFork = s.IsFork,
+                    SlideText = s.SlideText,
+                    QuestionText = s.QuestionText,
+                    ExplanationText = s.ExplanationText,
+                    SlideImageUrl = s.SlideImageUrl,
+                    Category = s.Category
+                })
+                .FirstOrDefaultAsync();
         }
 
         public Task<GetSlideResponse> UpdateSlideAsync(int id, Slide slide)
