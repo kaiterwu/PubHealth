@@ -1,7 +1,7 @@
 ﻿using PubHealth.DTOs.SlideDTOs;
 using PubHealth.Models;
 
-namespace PubHealth.Services
+namespace PubHealth.Services.SlideServices
 {
     public interface ISlideService
     {

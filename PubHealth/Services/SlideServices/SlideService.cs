@@ -3,7 +3,7 @@ using PubHealth.Data;
 using PubHealth.Models;
 using PubHealth.DTOs.SlideDTOs;
 
-namespace PubHealth.Services
+namespace PubHealth.Services.SlideServices
 {
     public class SlideService(AppDbContext context) : ISlideService
     {

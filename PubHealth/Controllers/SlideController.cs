@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PubHealth.DTOs.SlideDTOs;
 using PubHealth.Models;
-using PubHealth.Services;
+using PubHealth.Services.SlideServices;
 
 namespace PubHealth.Controllers
 {
@@ -10,7 +10,6 @@ namespace PubHealth.Controllers
     [ApiController]
     public class SlideController(ISlideService service) : ControllerBase
     {
-
         [HttpGet]
         public async Task<ActionResult<List<GetSlideResponse>>> GetSlides()
             => Ok(await service.GetAllSlidesAsync());
