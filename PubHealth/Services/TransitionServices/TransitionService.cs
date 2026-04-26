@@ -24,8 +24,7 @@ namespace PubHealth.Services.TransitionServices
                 ParentSlideId = t.ParentSlideId,
                 ChildSlideId = t.ChildSlideId,
                 IsCorrectChoice = t.IsCorrectChoice,
-                AnswerText1 = t.AnswerText1,
-                AnswerText2 = t.AnswerText2
+                AnswerText1 = t.AnswerText1
             }).ToListAsync();
 
         public async Task<GetTransitionResponse?> GetTransitionByIdAsync(int id)
@@ -38,12 +37,25 @@ namespace PubHealth.Services.TransitionServices
                     ParentSlideId = t.ParentSlideId,
                     ChildSlideId = t.ChildSlideId,
                     IsCorrectChoice = t.IsCorrectChoice,
-                    AnswerText1 = t.AnswerText1,
-                    AnswerText2 = t.AnswerText2
+                    AnswerText1 = t.AnswerText1
                 }).FirstOrDefaultAsync();
             return currTransition;
         }
 
+        public async Task<List<GetTransitionResponse>> GetTransitionsByParentIdAsync(int parentSlideId)
+        {
+            return await context.Transitions
+                .Where(t => t.ParentSlideId == parentSlideId)
+                .Select(t => new GetTransitionResponse
+                {
+                    Id = t.Id,
+                    ParentSlideId = t.ParentSlideId,
+                    ChildSlideId = t.ChildSlideId,
+                    IsCorrectChoice = t.IsCorrectChoice,
+                    AnswerText1 = t.AnswerText1
+                })
+                .ToListAsync();
+        }
         public Task<GetTransitionResponse> UpdateTransitionAsync(int id, Transition transition)
         {
             throw new NotImplementedException();

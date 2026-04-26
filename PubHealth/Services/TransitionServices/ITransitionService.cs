@@ -9,6 +9,7 @@ namespace PubHealth.Services.TransitionServices
         Task<GetTransitionResponse?> GetTransitionByIdAsync(int id);
         Task<GetTransitionResponse> CreateTransitionAsync(Transition transition);
         Task<GetTransitionResponse> UpdateTransitionAsync(int id, Transition transition);
+        Task<List<GetTransitionResponse>> GetTransitionsByParentIdAsync(int parentSlideId);
         Task<bool> DeleteTransitionAsync(int id);
     }
 }

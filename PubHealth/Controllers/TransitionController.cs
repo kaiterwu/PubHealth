@@ -19,5 +19,13 @@ namespace PubHealth.Controllers
             var transition = await service.GetTransitionByIdAsync(id);
             return transition is null ? NotFound($"No transition found with id {id}") : Ok(transition);
         }
+
+        [HttpGet("{parentId}/transitions")]
+        public async Task<IActionResult> GetTransitionsByParentId(int parentId)
+        {
+            var transitions = await service.GetTransitionsByParentIdAsync(parentId);
+
+            return Ok(transitions);
+        }
     }
 }

@@ -72,19 +72,13 @@ namespace PubHealth.Data
             modelBuilder.Entity<Transition>(entity =>
             {
                 entity.HasKey(t => t.Id);
-
                 entity.Property(t => t.Id)
                       .ValueGeneratedNever(); // IMPORTANT for fixed IDs
-
                 entity.Property(t => t.ParentSlideId)
                       .IsRequired();
-
                 entity.Property(t => t.ChildSlideId)
                       .IsRequired();
-
                 entity.Property(t => t.AnswerText1);
-
-                entity.Property(t => t.AnswerText2);
             });
 
             modelBuilder.Entity<Transition>().HasData(
@@ -93,32 +87,32 @@ namespace PubHealth.Data
                     Id = 1,
                     ParentSlideId = 1,
                     ChildSlideId = 2,
-                    AnswerText1 = "Answer1",
-                    AnswerText2 = "Answer2"
+                    IsCorrectChoice = true,
+                    AnswerText1 = "Answer1"
                 },
                 new Transition
                 {
                     Id = 2,
                     ParentSlideId = 1,
                     ChildSlideId = 3,
-                    AnswerText1 = "Answer3",
-                    AnswerText2 = "Answer4"
+                    IsCorrectChoice = false,
+                    AnswerText1 = "Answer3"
                 },
                 new Transition
                 {
                     Id = 3,
                     ParentSlideId = 2,
                     ChildSlideId = 4,
-                    AnswerText1 = "Answer5",
-                    AnswerText2 = "Answer6"
+                    IsCorrectChoice = false,
+                    AnswerText1 = "Answer5"
                 },
                 new Transition
                 {
                     Id = 4,
                     ParentSlideId = 3,
                     ChildSlideId = 4,
-                    AnswerText1 = "Answer7",
-                    AnswerText2 = "Answer8"
+                    IsCorrectChoice = true,
+                    AnswerText1 = "Answer7"
                 }
             );
         }

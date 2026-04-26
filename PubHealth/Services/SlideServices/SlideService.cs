@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PubHealth.Data;
-using PubHealth.Models;
 using PubHealth.DTOs.SlideDTOs;
+using PubHealth.DTOs.TransitionDTOs;
+using PubHealth.Models;
 
 namespace PubHealth.Services.SlideServices
 {
@@ -62,6 +63,43 @@ namespace PubHealth.Services.SlideServices
                     Category = s.Category
                 })
                 .FirstOrDefaultAsync();
+        }
+        public async Task<GetSlideWithTransitionsResponse?> GetSlideWithTransitionsAsync(int slideId)
+        {
+            var slide = await context.Slides
+                .Where(s => s.Id == slideId)
+                .Select(s => new GetSlideResponse
+                {
+                    Id = s.Id,
+                    IsFork = s.IsFork,
+                    SlideText = s.SlideText,
+                    QuestionText = s.QuestionText,
+                    SlideImageUrl = s.SlideImageUrl,
+                    Category = s.Category
+                })
+                .FirstOrDefaultAsync();
+
+            if (slide == null)
+                return null;
+
+            var transitions = await context.Transitions
+                .Where(t => t.ParentSlideId == slideId)
+                .Select(t => new GetTransitionResponse
+                {
+                    Id = t.Id,
+                    ParentSlideId = t.ParentSlideId,
+                    ChildSlideId = t.ChildSlideId,
+                    AnswerText1 = t.AnswerText1,
+                    AnswerText2 = t.AnswerText2,
+                    IsCorrectChoice = t.IsCorrectChoice
+                })
+                .ToListAsync();
+
+            return new GetSlideWithTransitionsResponse
+            {
+                Slide = slide,
+                Transitions = transitions
+            };
         }
 
         public Task<GetSlideResponse> UpdateSlideAsync(int id, Slide slide)

@@ -1,4 +1,6 @@
-﻿namespace PubHealth.DTOs.SlideDTOs
+﻿using PubHealth.DTOs.TransitionDTOs;
+
+namespace PubHealth.DTOs.SlideDTOs
 {
     public class GetSlideResponse
     {
@@ -9,5 +11,11 @@
         public string ExplanationText { get; set; } = string.Empty;
         public string SlideImageUrl { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
+    }
+
+    public class GetSlideWithTransitionsResponse
+    {
+        public GetSlideResponse Slide { get; set; } = null!;
+        public List<GetTransitionResponse> Transitions { get; set; } = new();
     }
 }

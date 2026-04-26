@@ -28,5 +28,17 @@ namespace PubHealth.Controllers
             var slide = await service.GetFirstSlideByCategoryAsync(category);
             return slide is null ? NotFound($"No slides found for category '{category}'") : Ok(slide);
         }
+
+        [HttpGet("{id}/full")]
+        public async Task<IActionResult> GetSlideWithTransitions(int id)
+        {
+            var result = await service.GetSlideWithTransitionsAsync(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
     }
 }

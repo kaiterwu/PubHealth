@@ -9,6 +9,5 @@ namespace PubHealth.Models
         public int ChildSlideId { get; set; }
         public bool IsCorrectChoice { get; set; }
         public string? AnswerText1 { get; set; } = string.Empty;
-        public string? AnswerText2 { get; set; } = string.Empty;
     }
 }
