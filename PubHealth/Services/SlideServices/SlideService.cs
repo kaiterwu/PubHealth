@@ -90,7 +90,6 @@ namespace PubHealth.Services.SlideServices
                     ParentSlideId = t.ParentSlideId,
                     ChildSlideId = t.ChildSlideId,
                     AnswerText1 = t.AnswerText1,
-                    AnswerText2 = t.AnswerText2,
                     IsCorrectChoice = t.IsCorrectChoice
                 })
                 .ToListAsync();
