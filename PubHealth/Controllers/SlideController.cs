@@ -40,5 +40,34 @@ namespace PubHealth.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<GetSlideResponse>> CreateSlide(CreateSlideRequest request)
+        {
+            var newSlide = new Slide
+            {
+                IsFork = request.IsFork,
+                SlideText = request.SlideText,
+                QuestionText = request.QuestionText,
+                ExplanationText = request.ExplanationText,
+                SlideImageUrl = request.SlideImageUrl,
+                Category = request.Category
+            };
+            var createdSlide = await service.CreateSlideAsync(request);
+            return CreatedAtAction(nameof(GetSlide), new { id = createdSlide.Id }, createdSlide);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<GetSlideResponse>> UpdateSlide(int id, UpdateSlideRequest request)
+        {
+            var updatedSlide = await service.UpdateSlideAsync(id, request);
+            return updatedSlide is null ? NotFound("Slide with id not found") : Ok(updatedSlide);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSlide(int id)
+        {
+            var result = await service.DeleteSlideAsync(id);
+            return result ? NoContent() : NotFound("Slide with id not found");
+        }
     }
 }

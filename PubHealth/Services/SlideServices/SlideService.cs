@@ -8,14 +8,40 @@ namespace PubHealth.Services.SlideServices
 {
     public class SlideService(AppDbContext context) : ISlideService
     {
-        public Task<GetSlideResponse> CreateSlideAsync(Slide slide)
+        public async Task<GetSlideResponse> CreateSlideAsync(CreateSlideRequest slide)
         {
-            throw new NotImplementedException();
+            var newSlide = new Slide
+            {
+                Id = slide.Id,
+                IsFork = slide.IsFork,
+                SlideText = slide.SlideText,
+                QuestionText = slide.QuestionText,
+                ExplanationText = slide.ExplanationText,
+                SlideImageUrl = slide.SlideImageUrl,
+                Category = slide.Category
+            };
+
+            context.Slides.Add(newSlide);
+            await context.SaveChangesAsync();
+
+            return new GetSlideResponse
+            {
+                Id = newSlide.Id,
+                IsFork = newSlide.IsFork,
+                SlideText = newSlide.SlideText,
+                QuestionText = newSlide.QuestionText,
+                ExplanationText = newSlide.ExplanationText,
+                SlideImageUrl = newSlide.SlideImageUrl,
+                Category = newSlide.Category
+            };
         }
 
-        public Task<bool> DeleteSlideAsync(int id)
+        public async Task<bool> DeleteSlideAsync(int id)
         {
-            throw new NotImplementedException();
+            var slideToDelete = await context.Slides.FindAsync(id) ?? throw new Exception($"Slide with ID {id} not found.");
+            context.Slides.Remove(slideToDelete);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<GetSlideResponse>> GetAllSlidesAsync()
@@ -101,9 +127,28 @@ namespace PubHealth.Services.SlideServices
             };
         }
 
-        public Task<GetSlideResponse> UpdateSlideAsync(int id, Slide slide)
+        public async Task<GetSlideResponse> UpdateSlideAsync(int id, UpdateSlideRequest slide)
         {
-            throw new NotImplementedException();
+            var existingSlide = await context.Slides.FindAsync(id) ?? throw new Exception($"Slide with ID {id} not found.");
+            existingSlide.IsFork = slide.IsFork;
+            existingSlide.SlideText = slide.SlideText;
+            existingSlide.QuestionText = slide.QuestionText;
+            existingSlide.ExplanationText = slide.ExplanationText;
+            existingSlide.SlideImageUrl = slide.SlideImageUrl;
+            existingSlide.Category = slide.Category;
+
+            await context.SaveChangesAsync();
+
+            return new GetSlideResponse
+            {
+                Id = existingSlide.Id,
+                IsFork = existingSlide.IsFork,
+                SlideText = existingSlide.SlideText,
+                QuestionText = existingSlide.QuestionText,
+                ExplanationText = existingSlide.ExplanationText,
+                SlideImageUrl = existingSlide.SlideImageUrl,
+                Category = existingSlide.Category
+            };
         }
     }
 }
